@@ -1,10 +1,23 @@
 // || ROCK PAPER SCISSORS
 
-const start = confirm(`Do you want to play rock, paper, scissors? \n Best of three wins!`);
+function getValidInput() {
+  let input;
+  do { 
+  //ask for valid input 
+  input = prompt(`Rock, paper or scissors?
+                                \n You must enter a number between 1 and 3.
+                                \n 1 = Rock \n 2 = Paper \n 3 = Scissors
+                                \n to stop the game, click cancel.`);
+    if (input===null) {
+        alert(`You have stopped the game.`)
+        return null;
+    }
+  } while ((![1, 2, 3].includes(Number(input)))) //repeat until 1, 2 or 3 is entered
 
-console.log(start);
+    return Number(input);
+  } // end getValidInput
 
-if (start == true) {
+function playGame() {
   let userChoice;
   let userScore = 0;
 
@@ -22,19 +35,10 @@ if (start == true) {
     scissors: "paper"
   }
 
-  function getValidInput() {
-    do { 
-    //ask for valid input 
-    input = Number(prompt(`Rock, paper or scissors?
-                                \n You must enter a number between 1 and 3.
-                                \n 1 = Rock \n 2 = Paper \n 3 = Scissors`));
-    } while ((![1, 2, 3].includes(input))); //repeat until 1, 2 or 3 is entered
-    return input;
-  }
-
   while (userScore<3 && computerScore<3) {   //while neither player has scored 3  
     userChoice = getValidInput();
-
+    if(userChoice === null){return;}
+    
     userChoice = rps[userChoice-1]; //matching user input to corresponding array value (choices 1-3, array entries 0-2)
     console.log(`User chooses ${userChoice}.`);
 
@@ -64,10 +68,9 @@ if (start == true) {
     alert(`The computer beat you. You will be spared.`)
   }
 
+} //end play game function
 
-}//end if (user wants to play game)
+const start = confirm(`Do you want to play rock, paper, scissors? \n Best of three wins!`);
 
-else {
-  alert(`Maybe some other time!`)
-}
-
+if (start===true){playGame()} 
+else{alert(`Maybe some other time!`)}
