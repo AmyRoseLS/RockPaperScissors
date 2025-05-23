@@ -1,10 +1,10 @@
-// || ROCK PAPER SCISSORS
+// || FUNCTIONS
 
-function getValidInput() {
+function getValidInput(round) {
   let input;
   do { 
   //ask for valid input 
-  input = prompt(`Rock, paper or scissors?
+  input = prompt(`Round ${round} \nRock, paper or scissors?
                                 \n You must enter a number between 1 and 3.
                                 \n 1 = Rock \n 2 = Paper \n 3 = Scissors
                                 \n to stop the game, click cancel.`);
@@ -26,6 +26,9 @@ function playGame() {
 
   let round = 1;
 
+  let winningScore;
+  winningScore = 3; //using let here because hopefully in future the user can pick the number of rounds they want to play
+
   const rps = ["rock", "paper", "scissors"] //array for user to pick their play from: rock = 1, paper = 2, scissors = 3
 
   const winCond = {
@@ -35,28 +38,30 @@ function playGame() {
     scissors: "paper"
   }
 
-  while (userScore<3 && computerScore<3) {   //while neither player has scored 3  
-    userChoice = getValidInput();
+  while (userScore<winningScore && computerScore<winningScore) {   //while neither player has reached the winning score 
+    userChoice = getValidInput(round);
     if(userChoice === null){return;}
     
     userChoice = rps[userChoice-1]; //matching user input to corresponding array value (choices 1-3, array entries 0-2)
-    console.log(`User chooses ${userChoice}.`);
-
     computerChoice = rps[Math.floor(3 * Math.random())]; //generating a random number between 0 & 2 inclusive and using this to pick a play for the computer
-    console.log(`Computer chooses ${computerChoice}.`);
 
+   
     if (userChoice === computerChoice) {
-      alert(`It's a tie! \n You - Computer \n ${userScore} - ${computerScore}`)
+      alert(`Computer chose ${computerChoice}. \n It's a tie! 
+        \n Scores: \n You - ${userScore} \n Computer - ${computerScore}`)
     }
     else if (winCond[userChoice] === computerChoice) {
       userScore++;
-      alert(`You win round ${round}! \n You - Computer \n ${userScore} - ${computerScore}`) 
+      alert(`Computer chose ${computerChoice}. \n You win round ${round}! 
+        \n Scores: \n You - ${userScore} \n Computer - ${computerScore}`) 
     }
     else {
       computerScore++;
-      alert(`Computer wins round ${round}! \n You - Computer \n ${userScore} - ${computerScore}`)
+      alert(`Computer chose ${computerChoice} and wins round ${round}! 
+        \n Scores: \n You - ${userScore} \n Computer - ${computerScore}`)
     }
 
+    console.log(`Round ${round}: User choice - ${userChoice}, Computer choice - ${computerChoice}. User score - ${userScore}, Computer score ${computerScore}.`);
     round++;
 
   } //end while (scores < 3)
@@ -70,7 +75,15 @@ function playGame() {
 
 } //end play game function
 
-const start = confirm(`Do you want to play rock, paper, scissors? \n Best of three wins!`);
 
-if (start===true){playGame()} 
-else{alert(`Maybe some other time!`)}
+// ON LOAD:
+
+document.addEventListener('DOMContentLoaded', function() { 
+
+  const playGameButton = document.getElementById('buttonPlayGame');
+
+  playGameButton.addEventListener('click', function() {
+    playGame();
+  });
+
+});

@@ -1,0 +1,10 @@
+body {
+    width: 98vw;
+    height: 98vh;
+    display: grid;
+    place-content: center;
+}
+
+.button__play-game {
+
+}
