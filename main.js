@@ -22,22 +22,18 @@ if (start == true) {
     scissors: "paper"
   }
 
-  while (userScore<3 && computerScore<3) {   //while neither player has scored 3  
-
-    userChoice = Number(prompt(`Round ${round}! 
-                              \n Rock, paper or scissors? 
-                              \n 1 = Rock \n 2 = Paper \n 3 = Scissors`));
-
-    while (!(Number.isInteger(userChoice) && userChoice>0 && userChoice<=3)) { 
-    //(!(conditions))
-    //checking conditions that: user is an integer that's greater than 0 but less than 3.
-    // any one of these conditions not met returns false, which the ! converts to true so the loop will run. 
-    // if all conditions are met, returns true which the ! changes to false so the loop won't run/stops
-
-    userChoice = Number(prompt(`You must enter a number between 1 and 3. 
-                                \n Rock, paper or scissors? 
+  function getValidInput() {
+    do { 
+    //ask for valid input 
+    input = Number(prompt(`Rock, paper or scissors?
+                                \n You must enter a number between 1 and 3.
                                 \n 1 = Rock \n 2 = Paper \n 3 = Scissors`));
-    } //end input validator while
+    } while ((![1, 2, 3].includes(input))); //repeat until 1, 2 or 3 is entered
+    return input;
+  }
+
+  while (userScore<3 && computerScore<3) {   //while neither player has scored 3  
+    userChoice = getValidInput();
 
     userChoice = rps[userChoice-1]; //matching user input to corresponding array value (choices 1-3, array entries 0-2)
     console.log(`User chooses ${userChoice}.`);
