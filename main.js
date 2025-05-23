@@ -13,13 +13,13 @@ if (start == true) {
 
   let round = 1;
 
-  const rps = {
-    choose: ["rock", "paper", "scissors"], //array for user to pick their play from: rock = 1, paper = 2, scissors = 3
+  const rps = ["rock", "paper", "scissors"] //array for user to pick their play from: rock = 1, paper = 2, scissors = 3
 
-    //user choice: [tie condition, win condition, lose condition]
-    rock: ["rock", "scissors", "paper"],
-    paper: ["paper", "rock", "scissors"],
-    scissors: ["scissors", "paper", "rock"]
+  const winCond = {
+    //user choice: computer must choose this for user to win 
+    rock: "scissors",
+    paper: "rock",
+    scissors: "paper"
   }
 
   while (userScore<3 && computerScore<3) {   //while neither player has scored 3  
@@ -39,36 +39,23 @@ if (start == true) {
                                 \n 1 = Rock \n 2 = Paper \n 3 = Scissors`));
     } //end input validator while
 
-    userChoice = rps.choose[userChoice-1]; //matching user input to corresponding array value (choices 1-3, array entries 0-2)
+    userChoice = rps[userChoice-1]; //matching user input to corresponding array value (choices 1-3, array entries 0-2)
     console.log(`User chooses ${userChoice}.`);
 
-    computerChoice = rps.choose[Math.floor(3 * Math.random())]; //generating a random number between 0 & 2 inclusive and using this to pick a play for the computer
+    computerChoice = rps[Math.floor(3 * Math.random())]; //generating a random number between 0 & 2 inclusive and using this to pick a play for the computer
     console.log(`Computer chooses ${computerChoice}.`);
 
-    switch (computerChoice) { //if computerChoice
-      // = userChoice
-      case rps[userChoice][0]: //rps[userChoice] selects key in rps that points to appropriate tie/win/lose conditions for this round
-        alert(`It's a tie! \n You - Computer \n ${userScore} - ${computerScore}`)
-      break; 
-
-      // = win condition for user
-      case rps[userChoice][1]:
-        userScore++;
-        alert(`You win this round! \n You - Computer \n ${userScore} - ${computerScore}`)      
-      
-      break;
-
-      // = lose condition for user
-      case rps[userChoice][2]:
-        computerScore++;
-        alert(`Computer wins this round! \n You - Computer \n ${userScore} - ${computerScore}`)
-        
-      
-      break;
-
-      default:
-        console.log(`Something has gone wrong :(`)
-    } //end switch (choice comparisons)
+    if (userChoice === computerChoice) {
+      alert(`It's a tie! \n You - Computer \n ${userScore} - ${computerScore}`)
+    }
+    else if (winCond[userChoice] === computerChoice) {
+      userScore++;
+      alert(`You win round ${round}! \n You - Computer \n ${userScore} - ${computerScore}`) 
+    }
+    else {
+      computerScore++;
+      alert(`Computer wins round ${round}! \n You - Computer \n ${userScore} - ${computerScore}`)
+    }
 
     round++;
 
