@@ -2,21 +2,6 @@
 // alert("Hello world!");
 
 
-// clicking okay on a confirm pop up returns a value of true, clicking cancel returns false
-// let myBool = confirm("Ok === True \n Cancel === False");
-// console.log(myBool);
-
-
-// recieving typed info back from user with prompt
-
-// let yourName = prompt("Please enter your name.");
-// returns null if cancel is clicked, an empty string is okay is clicked without entering anything
-
-// Nullish Coalescing Operator, ??
-// if yourName has a value (including a blank string), log yourName. Else log "You hit cancel"
-// console.log(yourName ?? "You hit cancel");
-
-
 // || ROCK PAPER SCISSORS
 
 const start = confirm(`Do you want to play rock, paper, scissors? \n Best of three wins!`);
@@ -24,52 +9,79 @@ const start = confirm(`Do you want to play rock, paper, scissors? \n Best of thr
 console.log(start);
 
 if (start == true) {
+  let user;
+  let userScore = 0;
+
+  let computer;
+  let computerScore = 0;
+
+  let round = 1;
 
   const rps = {
     choose: ["rock", "paper", "scissors"], //array to pick a choice from
 
     // if user chooses this: computer chooses one of these[tie, user win, user loss]
-    rock: ["rock", "scissors", "paper"],
+     rock: ["rock", "scissors", "paper"],
     paper: ["paper", "rock", "scissors"],
-    scissors: ["scissors", "paper", "rock"]
+     scissors: ["scissors", "paper", "rock"]
   }
 
-  let user = Number(prompt(`Rock, paper or scissors? \n 1 = Rock \n 2 = Paper \n 3 = Scissors`));
+  while (userScore<3 && computerScore<3) {     
 
-  while (!(Number.isInteger(user) && user>0 && user<=3)) { 
-  //(!(conditions))
-  //checking conditions that: user is an integer that's greater than 0 but less than 3.
-  // any one of these conditions not met returns false, which the ! converts to true so the loop will run. 
-  // if all conditions are met, returns true which the ! changes to false so the loop stops.
+    user = Number(prompt(`Round ${round}! \n Rock, paper or scissors? \n 1 = Rock \n 2 = Paper \n 3 = Scissors`));
 
-  user = Number(prompt(`You must enter a number between 1 and 3. \n Rock, paper or scissors? \n 1 = Rock \n 2 = Paper \n 3 = Scissors`));
+    while (!(Number.isInteger(user) && user>0 && user<=3)) { 
+    //(!(conditions))
+    //checking conditions that: user is an integer that's greater than 0 but less than 3.
+    // any one of these conditions not met returns false, which the ! converts to true so the loop will run. 
+    // if all conditions are met, returns true which the ! changes to false so the loop won't run/stops
+
+    user = Number(prompt(`You must enter a number between 1 and 3. \n Rock, paper or scissors? \n 1 = Rock \n 2 = Paper \n 3 = Scissors`));
+    } //end input validator while
+
+    user = rps.choose[user-1];
+    console.log(`User chooses ${user}.`);
+
+    computer = rps.choose[Math.floor(3 * Math.random())];
+    console.log(`Computer chooses ${computer}.`);
+
+    switch (computer) {
+      case rps[user][0]:
+        alert(`It's a tie! \n You - Computer \n ${userScore} - ${computerScore}`)
+      break; 
+
+      case rps[user][1]:
+        userScore++;
+        alert(`You win this round! \n You - Computer \n ${userScore} - ${computerScore}`)      
+      
+      break;
+
+      case rps[user][2]:
+        computerScore++;
+        alert(`Computer wins this round! \n You - Computer \n ${userScore} - ${computerScore}`)
+        
+      
+      break;
+
+      default:
+        console.log(`Something has gone wrong :(`)
+    } //end switch
+
+    round++;
+
+  } //end scores <3 while
+
+  if (userScore>computerScore) {
+    alert(`Congratulations! You beat the computer. Our AI overlords will remember this.`)
+  }
+  else {
+    alert(`The computer beat you. You will be spared.`)
   }
 
-  user = rps.choose[user-1];
-  console.log(`User chooses ${user}.`);
 
-  let computer = rps.choose[Math.floor(3 * Math.random())];
-  console.log(`Computer chooses ${computer}.`);
-
-  switch (computer) {
-    case rps[user][0]:
-      alert(`It's a tie!`)
-    break; 
-
-    case rps[user][1]:
-      alert('You win!')
-    break;
-
-    case rps[user][2]:
-      alert(`Computer wins!`)
-    break;
-
-    default:
-      console.log(`Something has gone wrong :(`)
-  }
-}
+}//end if user wants to play game
 
 else {
-  alert(`Pointless opening the page then weren't it XD`)
+  alert(`Maybe some other time!`)
 }
 
